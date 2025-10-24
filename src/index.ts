@@ -1,12 +1,15 @@
 import { BskyAgent, AppBskyFeedPost } from '@atproto/api';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 async function main() {
   const agent = new BskyAgent({ service: 'https://bsky.social' });
 
-  // Login with your credentials
+  // Login with your credentials from .env
   await agent.login({
-    identifier: 'your-handle.bsky.social', // replace with your handle
-    password: 'your-password' // replace with your password
+    identifier: process.env.IDENTIFIER!,
+    password: process.env.PASSWORD!
   });
 
   // Search for posts with #badbunny

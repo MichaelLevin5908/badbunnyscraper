@@ -9,14 +9,16 @@ This TypeScript project uses the official BlueSky API to scrape posts for specif
    npm install
    ```
 
-2. Build the project:
+2. Create a `.env` file in the root directory with your BlueSky credentials:
+   ```
+   IDENTIFIER=your-handle.bsky.social
+   PASSWORD=your-password
+   ```
+
+3. Build the project:
    ```
    npm run build
    ```
-
-3. Update the credentials in `src/index.ts`:
-   - Replace `'your-handle.bsky.social'` with your BlueSky handle.
-   - Replace `'your-password'` with your BlueSky password.
 
 ## Usage
 
