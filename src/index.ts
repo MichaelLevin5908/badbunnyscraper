@@ -1,4 +1,4 @@
-import { BskyAgent, AppBskyFeedPost } from '@atproto/api';
+import { BskyAgent, AppBskyFeedPost, LikeRecord } from '@atproto/api';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 
@@ -21,8 +21,14 @@ async function main() {
     author: post.author.displayName,
     text: (post.record as AppBskyFeedPost.Record).text,
     uri: post.uri,
-    createdAt: (post.record as AppBskyFeedPost.Record).createdAt
+    createdAt: (post.record as AppBskyFeedPost.Record).createdAt,
+    likeCount: (post.likeCount ?? 0)
   }));
+
+  posts.sort((a, b) =>
+    (b.likeCount - a.likeCount) ||
+    ((new Date(b.createdAt || 0).getTime()) - (new Date(a.createdAt || 0).getTime()))
+  );
 
   fs.writeFileSync('posts.json', JSON.stringify(posts, null, 2));
   console.log('Posts saved to posts.json');
