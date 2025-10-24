@@ -13,7 +13,7 @@ async function main() {
   });
 
   const response = await agent.api.app.bsky.feed.searchPosts({
-    q: '#badbunny OR #superbowl',
+    q: '#badbunny #superbowl',
     limit: 100
   });
 

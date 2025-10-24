@@ -44,7 +44,7 @@ async function main() {
         password: process.env.PASSWORD
     });
     const response = await agent.api.app.bsky.feed.searchPosts({
-        q: '#badbunny OR #superbowl',
+        q: '#badbunny #superbowl',
         limit: 100
     });
     const posts = response.data.posts.map(post => ({
