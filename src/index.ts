@@ -1,5 +1,6 @@
 import { BskyAgent, AppBskyFeedPost } from '@atproto/api';
 import * as dotenv from 'dotenv';
+import * as fs from 'fs';
 
 dotenv.config();
 
@@ -16,11 +17,15 @@ async function main() {
     limit: 100
   });
 
-  console.log('Posts for #badbunny or #superbowl:');
-  response.data.posts.forEach(post => {
-    const record = post.record as AppBskyFeedPost.Record;
-    console.log(`- ${post.author.displayName}: ${record.text}`);
-  });
+  const posts = response.data.posts.map(post => ({
+    author: post.author.displayName,
+    text: (post.record as AppBskyFeedPost.Record).text,
+    uri: post.uri,
+    createdAt: (post.record as AppBskyFeedPost.Record).createdAt
+  }));
+
+  fs.writeFileSync('posts.json', JSON.stringify(posts, null, 2));
+  console.log('Posts saved to posts.json');
 }
 
 main().catch(console.error);

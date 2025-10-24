@@ -35,23 +35,25 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const api_1 = require("@atproto/api");
 const dotenv = __importStar(require("dotenv"));
+const fs = __importStar(require("fs"));
 dotenv.config();
 async function main() {
     const agent = new api_1.BskyAgent({ service: 'https://bsky.social' });
-    // Login with your credentials from .env
     await agent.login({
         identifier: process.env.IDENTIFIER,
         password: process.env.PASSWORD
     });
-    // Search for posts with #badbunny or #superbowl
     const response = await agent.api.app.bsky.feed.searchPosts({
         q: '#badbunny OR #superbowl',
         limit: 100
     });
-    console.log('Posts for #badbunny or #superbowl:');
-    response.data.posts.forEach(post => {
-        const record = post.record;
-        console.log(`- ${post.author.displayName}: ${record.text}`);
-    });
+    const posts = response.data.posts.map(post => ({
+        author: post.author.displayName,
+        text: post.record.text,
+        uri: post.uri,
+        createdAt: post.record.createdAt
+    }));
+    fs.writeFileSync('posts.json', JSON.stringify(posts, null, 2));
+    console.log('Posts saved to posts.json');
 }
 main().catch(console.error);
