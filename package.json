@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "@atproto/api": "^0.13.0",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "json2csv": "^6.0.0-alpha.2"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0"
+    "@types/json2csv": "^5.0.7",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
   }
 }

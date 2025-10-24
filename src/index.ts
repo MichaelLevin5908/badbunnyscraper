@@ -2,6 +2,7 @@ import { BskyAgent, AppBskyFeedPost, LikeRecord, RepostRecord } from '@atproto/a
 import { isQuotedPost } from '@atproto/api/dist/moderation/util';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
+import { Parser } from 'json2csv';
 
 dotenv.config();
 
@@ -49,12 +50,18 @@ async function main() {
     ((new Date(b.createdAt || 0).getTime()) - (new Date(a.createdAt || 0).getTime()))
   );
 
-  fs.writeFileSync('sortedByLikes.json', JSON.stringify(sortedByLikes, null, 2));
-  fs.writeFileSync('sortedByQuotes.json', JSON.stringify(sortedByQuotes, null, 2));
-  fs.writeFileSync('sortedByReplies.json', JSON.stringify(sortedByReplies, null, 2));
-  fs.writeFileSync('sortedByReposts.json', JSON.stringify(sortedByReposts, null, 2));
+  const saveAsCSV = (data: typeof posts, filename: string) => {
+    const json2csvParser = new Parser();
+    const csv = json2csvParser.parse(data);
+    fs.writeFileSync(filename, csv);
+  };
 
-  console.log('All 100 posts sorted and saved for each metric.');
+  saveAsCSV(sortedByLikes, 'sortedByLikes.csv');
+  saveAsCSV(sortedByQuotes, 'sortedByQuotes.csv');
+  saveAsCSV(sortedByReplies, 'sortedByReplies.csv');
+  saveAsCSV(sortedByReposts, 'sortedByReposts.csv');
+
+  console.log('All 100 posts sorted and saved as CSV for each metric.');
 }
 
 main().catch(console.error);
