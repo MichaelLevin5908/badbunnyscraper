@@ -1,0 +1,17 @@
+{
+  "name": "bluesky-scraper",
+  "version": "1.0.0",
+  "description": "Scrape BlueSky posts for hashtags",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@atproto/api": "^0.13.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
